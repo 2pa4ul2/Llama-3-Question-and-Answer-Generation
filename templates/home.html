@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Uploader and MCQ Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        #loadingIndicator {
+            display: none;
+            text-align: center;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Upload PDF and Generate MCQs</h1>
+        <div class="card mt-4">
+            <div class="card-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Select PDF file</label>
+                        <input class="form-control" type="file" id="file" name="file" accept="application/pdf" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload and Generate MCQs</button>
+                </form>
+
+                <!-- Loading indicator -->
+                <div id="loadingIndicator" class="mt-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Processing your file, please wait...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4" id="result"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#uploadForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Show loading indicator
+                $('#loadingIndicator').show();
+
+                var formData = new FormData();
+                var fileInput = $('#file')[0];
+                
+                if (fileInput.files.length === 0) {
+                    alert("Please select a file to upload.");
+                    $('#loadingIndicator').hide();  // Hide the loading indicator if no file is selected
+                    return;
+                }
+
+                formData.append('file', fileInput.files[0]);
+
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // Hide loading indicator
+                        $('#loadingIndicator').hide();
+
+                        if (response.message === "File successfully uploaded") {
+                            $('#result').html(`<h4>Generated Multiple Choice Questions:</h4><pre>${formatMCQ(response.result)}</pre>`);
+                        } else {
+                            $('#result').html("<div class='alert alert-danger'>" + response.message + "</div>");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Hide loading indicator
+                        $('#loadingIndicator').hide();
+
+                        $('#result').html("<div class='alert alert-danger'>Error: " + xhr.responseText + "</div>");
+                    }
+                });
+            });
+
+            function formatMCQ(result) {
+                // Assuming 'result' is an array or string of MCQs
+                return result
+                    .replace(/(?:\r\n|\r|\n)/g, '<br>') // Replace newlines with <br> tags for formatting
+                    .replace(/(\d+\.)/g, '<b>$1</b>')  // Bold the question number
+                    .replace(/(Answer:)/g, '<b>$1</b>'); // Bold the 'Answer:' text
+            }
+        });
+    </script>
+</body>
+</html>
