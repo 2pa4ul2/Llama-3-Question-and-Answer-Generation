@@ -47,6 +47,35 @@ def upload():
         if file:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(file_path)
+            # page = request.form.get('page')
+            # selected_type = request.form.get('stype')
+            # prompt = """
+            #         Number of questions: {page}
+            #         Type of questions: {selected_type}
+            #         Generate questions from the following text. The questions should be in the following format:
+
+            #         If MCQs:
+            #         For each question, provide four options (a, b, c, d) and specify the correct answer at the end in the following format:
+            #         1. Question text here?
+            #         a) Option A
+            #         b) Option B
+            #         c) Option C
+            #         d) Option D
+
+            #         if Identification
+            #         For each question, specify the correct answer at the end in the following format:
+            #         1. Question text here?
+
+            #         if ToF:
+            #         For each question, specify the correct answer at the end in the following format:
+            #         1. Question text here?
+            #         a) True 
+            #         b) False
+                    
+            #         Answer: [correct answer letter]
+
+            #         The questions should be clear, concise, and relevant to the text. Here is the text:
+            #         """
             prompt = """
                     Generate multiple-choice questions from the following text. For each question, provide four options (a, b, c, d) and specify the correct answer at the end in the following format:
 

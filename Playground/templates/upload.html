@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Generator</title>
+</head>
+<body>
+    <h1>Extracted Text:</h1>
+    <p>{{ text }}</p>
+    
+    <form action="/generate" method="POST">
+        <input type="hidden" name="text" value="{{ text }}">
+        <label for="number">Number of Questions:</label>
+        <input type="number" name="number" id="number" required>
+        
+        <label for="type">Question Type:</label>
+        <select name="type" id="type">
+            <option value="MCQ">Multiple Choice</option>
+            <option value="TOF">True or False</option>
+            <option value="IDN">Identification</option>
+        </select>
+        
+        <button type="submit">Generate</button>
+    </form>
+</body>
+</html>
