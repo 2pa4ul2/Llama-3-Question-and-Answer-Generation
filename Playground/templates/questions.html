@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Generator</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Extracted Text:</h1>
+        <div class="alert alert-info">
+            <p>{{ text }}</p>
+        </div>
+
+        <form action="/generate" method="POST">
+            <input type="hidden" name="text" value="{{ text }}">
+
+            <div id="questionTypesContainer" class="form-group">
+                <label for="type">Question Type:</label>
+                <select name="type" class="form-control mb-2" required>
+                    <option value="MCQ">Multiple Choice</option>
+                    <option value="TOF">True or False</option>
+                    <option value="IDN">Identification</option>
+                </select>
+                
+                <label for="number">Number of Questions:</label>
+                <input type="number" name="number" class="form-control mb-3" min="1" required>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="addQuestionType()">Add Another Question Type</button>
+            <button type="submit" class="btn btn-primary mt-3">Generate</button>
+        </form>
+    </div>
+
+    <script>
+        function addQuestionType() {
+            const container = document.getElementById("questionTypesContainer");
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("form-group", "mt-4");
+            newDiv.innerHTML = `
+                <label for="type">Question Type:</label>
+                <select name="type" class="form-control mb-2" required>
+                    <option value="MCQ">Multiple Choice</option>
+                    <option value="TOF">True or False</option>
+                    <option value="IDN">Identification</option>
+                </select>
+                <label for="number">Number of Questions:</label>
+                <input type="number" name="number" class="form-control mb-3" min="1" required>
+            `;
+            container.appendChild(newDiv);
+        }
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

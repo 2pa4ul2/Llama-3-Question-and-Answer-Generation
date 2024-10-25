@@ -2,20 +2,19 @@ from flask import Flask, request, jsonify, render_template
 from langchain_community.llms import Ollama
 import os, pdfplumber
 
-
 app = Flask(__name__)
 
-#import model
+# Import model
 llm = Ollama(model="llama3")
 
-#Variables
+# Variables
 UPLOAD_FOLDER = 'Playground/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-
+# PDF Text Extraction Function
 def extract_pdf_text(file_path):
     try:
         with pdfplumber.open(file_path) as pdf:
@@ -34,8 +33,12 @@ def extract_pdf_text(file_path):
 def home():
     return render_template('home.html')
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload')
 def upload():
+    return render_template('upload.html')
+
+@app.route('/questions', methods=['POST'])
+def questions():
     if request.method == 'POST':
         if 'file' not in request.files:
             return jsonify({"message": "No file part"}), 400
@@ -49,7 +52,7 @@ def upload():
             file.save(file_path)
             text = extract_pdf_text(file_path)
             if text:
-                return render_template('upload.html', text=text)
+                return render_template('questions.html', text=text)
             else:
                 return jsonify({"message": "Error extracting text from the PDF file"}), 400
 
@@ -60,12 +63,16 @@ def generate_questions():
     if not text:
         return jsonify({"message": "No text provided. Please upload a file first."}), 400
 
-    # Get the number of questions and question type from the form data
-    number_of_questions = request.form.get('number')  # The number of questions entered
-    question_type = request.form.get('type')  # The selected question type
+    # Get all the selected question types and corresponding numbers
+    question_types = request.form.getlist('type')
+    question_numbers = request.form.getlist('number')
 
+    # Dictionary to store all generated questions based on the type
+    all_generated_questions = []
+
+    # Prompts for each type of question
     question_prompts = {
-        'MCQ': f"""
+        'MCQ': """
             Generate {number_of_questions} multiple-choice questions from the following text. 
             For each question, provide four options (a, b, c, d) and specify the correct answer 
             at the end in the following format:
@@ -79,9 +86,9 @@ def generate_questions():
                 Answer: [correct answer letter]
 
                 The questions should be clear, concise, and relevant to the text. Here is the text:
-                """,
+            """,
 
-        'TOF': f"""
+        'TOF': """
             Generate {number_of_questions} True or False questions from the following text. 
             For each question, specify the correct answer at the end in the following format:
 
@@ -92,9 +99,9 @@ def generate_questions():
                 Answer: [correct answer letter]
 
                 The questions should be clear, concise, and relevant to the text. Here is the text:
-                """,
+            """,
 
-        'IDN': f"""
+        'IDN': """
             Generate {number_of_questions} Identification Questions from the following text. 
             For each question, specify the correct answer at the end in the following format:
 
@@ -103,36 +110,33 @@ def generate_questions():
                 Answer: [correct answer]
 
                 The questions should be clear, concise, and relevant to the text. Here is the text:
-                """
+            """
     }
 
-    # Check if the question type is valid and get the corresponding prompt
-    prompt = question_prompts.get(question_type)
-    if not prompt:
-        return jsonify({"message": "Invalid question type selected."}), 400
+    # Loop through each selected question type and corresponding number of questions
+    for question_type, num_questions in zip(question_types, question_numbers):
+        num_questions = int(num_questions)  # Convert number of questions to integer
 
-    # Combine the text with the prompt and invoke the LLM
-    formatted_prompt = text + prompt
-    result = llm.invoke(formatted_prompt)
+        # Get the corresponding prompt for the current question type
+        prompt_template = question_prompts.get(question_type)
+        if prompt_template:
+            # Format the prompt with the number of questions
+            prompt = prompt_template.format(number_of_questions=num_questions)
 
-    return render_template('generated.html', result=result)
+            # Combine the text with the prompt
+            formatted_prompt = text + prompt
 
+            # Invoke the LLM (LangChain model) to generate questions
+            result = llm.invoke(formatted_prompt)
+
+            # Append the result to the list
+            all_generated_questions.append({
+                'type': question_type,
+                'questions': result
+            })
+
+    # Return the generated questions to the frontend
+    return render_template('generated.html', generated_questions=all_generated_questions)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    # prompt = """
-    #                 Generate multiple-choice questions from the following text. For each question, provide four options (a, b, c, d) and specify the correct answer at the end in the following format:
-
-    #                 1. Question text here?
-    #                 a) Option A
-    #                 b) Option B
-    #                 c) Option C
-    #                 d) Option D
-
-    #                 Answer: [correct answer letter]
-
-    #                 The questions should be clear, concise, and relevant to the text. Here is the text:
-    #                 """
-    #         text = extract_pdf_text(file_path)
-    #         formatted_prompt = text+prompt
