@@ -1,67 +1,13 @@
+from flask import Blueprint, render_template, session
 from flask import Flask, request, jsonify, render_template
 from langchain_community.llms import Ollama
-import os, pdfplumber
 
-app = Flask(__name__)
-
-# Import model
 llm = Ollama(model="llama3")
 
-# Variables
-UPLOAD_FOLDER = 'Playground/static/uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+generated = Blueprint('generated', __name__)
 
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
-# PDF Text Extraction Function
-def extract_pdf_text(file_path):
-    try:
-        with pdfplumber.open(file_path) as pdf:
-            text = ""
-            for page in pdf.pages:
-                text += page.extract_text()
-        return text
-    except FileNotFoundError:
-        print(f"Error: File {file_path} not found.")
-        return None
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
-
-@app.route('/')
-def landing():
-    return render_template('landing.html')
-
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
-@app.route('/upload')
-def upload():
-    return render_template('upload.html')
-
-@app.route('/questions', methods=['POST'])
-def questions():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return jsonify({"message": "No file part"}), 400
-
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({"message": "No file selected for uploading"}), 400
-
-        if file:
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(file_path)
-            text = extract_pdf_text(file_path)
-            if text:
-                return render_template('questions.html', text=text)
-            else:
-                return jsonify({"message": "Error extracting text from the PDF file"}), 400
-
-@app.route('/generate', methods=['POST'])
-def generate_questions():
+@generated.route('/generate', methods=['POST'])
+def generate_questions_page():
     # Get the text and validate it
     text = request.form.get('text')
     if not text:
@@ -141,6 +87,3 @@ def generate_questions():
 
     # Return the generated questions to the frontend
     return render_template('generated.html', generated_questions=all_generated_questions)
-
-if __name__ == '__main__':
-    app.run(debug=True)
