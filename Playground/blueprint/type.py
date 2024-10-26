@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session,request, jsonify, render_template, current_app
 import os, pdfplumber
 
-questions = Blueprint('questions', __name__)
+type = Blueprint('type', __name__)
 
 # PDF Text Extraction Function
 def extract_pdf_text(file_path):
@@ -18,8 +18,8 @@ def extract_pdf_text(file_path):
         print(f"Error: {e}")
         return None
 
-@questions.route('/questions', methods=['POST'])
-def questions_page():
+@type.route('/type', methods=['POST'])
+def type_page():
     if request.method == 'POST':
         if 'file' not in request.files:
             return jsonify({"message": "No file part"}), 400
