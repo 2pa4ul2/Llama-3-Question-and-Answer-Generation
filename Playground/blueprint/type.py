@@ -33,7 +33,7 @@ def type_page():
             file.save(file_path)
             text = extract_pdf_text(file_path)
             if text:
-                return render_template('questions.html', text=text)
+                return render_template('type.html', text=text)
             else:
                 return jsonify({"message": "Error extracting text from the PDF file"}), 400
 
