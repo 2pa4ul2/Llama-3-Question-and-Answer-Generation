@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from Playground.blueprint.landing import landing
 from Playground.blueprint.home import home
-from Playground.blueprint.type import type
+from Playground.blueprint.extract import extract
 from Playground.blueprint.upload import upload
 from Playground.blueprint.generated import generated
 
@@ -16,7 +16,7 @@ def create_app():
 
     app.register_blueprint(landing)
     app.register_blueprint(home)
-    app.register_blueprint(type)
+    app.register_blueprint(extract)
     app.register_blueprint(upload)
     app.register_blueprint(generated)
 
