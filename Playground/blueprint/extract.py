@@ -18,13 +18,6 @@ def extract_pdf_text(file_path):
         print(f"Error: {e}")
         return None
 
-#Chunking
-
-#Page Selection
-
-#RAG 
-
-
 # Extract Page Route
 @extract.route('/extract', methods=['POST'])
 def extract_page():
