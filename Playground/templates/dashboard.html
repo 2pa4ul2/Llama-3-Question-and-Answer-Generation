@@ -1,0 +1,98 @@
+{% extends "layout/base.html" %}
+
+{% block css_file %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block title %} File Upload {% endblock %} 
+
+{% block content %}
+    <nav class="navbar">
+        <ul>
+            <li class="logo-container"><a href="{{ url_for('views.index') }}">
+                    <img src="../static/assets/logo.svg" style="width: 100%;" class="logo">
+            </a></li>
+
+            <!-- TEMPORARY GREET USER -->
+            <div>
+                <span><b>Welcome, {{ user.first_name }}</b></span>
+                <a href=" {{ url_for('auth.logout') }}">Logout</a>
+            </div>
+            
+            <div class="menu-link">
+                <li><a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </a></li>
+                <li><a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                </a></li>
+                <li><a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+                </a></li>
+            </div>
+        </ul>
+    </nav>
+
+    <div class="dashboard-main">
+        <div class="greeting">
+            <h3>What do you</h3>
+            <h3>want to do?</h3>
+        </div>
+    
+        <div class="dashboard card-list">
+            <a href=" {{ url_for('views.upload') }}" class="card-item">
+                <h3>Generate Exam</h3>
+                <p>Upload a file to create an exam.</p>
+            </a>
+            
+            <a href=" {{ url_for('views.upload') }}" class="card-item">
+                <h3>Generate Reviewer</h3>
+                <p>Upload a file to create a reviewer.</p>
+            </a>
+            
+            <a href=" {{ url_for('views.upload') }}" class="card-item">
+                <h3>Metrics</h3>
+                <p>View Progress</p>
+            </a>
+        </div>
+    </div>
+    <hr> 
+    <div class="review">
+        <h2>Reviewer Board</h2> 
+        <div class="board card-list">
+            <div class="card-item">
+                <div class="card-header">
+                    <h3>Review 1</h3>
+                </div>
+                <div class="card-body">
+                    <p>Additional information for Review 1 can go here.</p>
+                </div>
+            </div>
+            <div class="card-item">
+                <div class="card-header">
+                    <h3>Review 2</h3>
+                </div>
+                <div class="card-body">
+                    <p>Additional information for Review 2 can go here.</p>
+                </div>
+            </div>
+            <div class="card-item">
+                <div class="card-header">
+                    <h3>Review 3</h3>
+                </div>
+                <div class="card-body">
+                    <p>Additional information for Review 3 can go here.</p>
+                </div>
+            </div>
+            <div class="card-item">
+                <div class="card-header">
+                    <h3>Review 4</h3>
+                </div>
+                <div class="card-body">
+                    <p>Additional information for Review 4 can go here.</p>
+                </div>
+            </div>
+        </div>    
+    </div>
+    
+    {% endblock %}

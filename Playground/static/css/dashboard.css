@@ -1,0 +1,475 @@
+body {
+    background-color: #f7f9ff;
+}
+
+.menu-link {
+    display: flex;
+    justify-content: space-between;
+    width: 10%;
+}
+
+.greeting {
+    display: column;
+}
+
+.greeting h3 {
+  font-size: 2.54rem;
+}
+
+.card-list {
+    display: flex;
+    gap: 2em;
+    padding: 2em 6em;
+}
+
+.dashboard-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2em 0 8em;
+}
+
+.dashboard.card-list .card-item {
+    color: var(--black-color);
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+    list-style: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: border 0.5s ease;
+    height: 70px;
+} 
+
+.dashboard.card-list .card-item:nth-of-type(1) {
+    background-color: #ECD7EC;
+}
+.dashboard.card-list .card-item:nth-of-type(2) {
+    background-color: #D1E5F9;
+}
+.dashboard.card-list .card-item:nth-of-type(3) {
+    background-color: #BAE6E2;
+}
+
+.dashboard.card-list .card-item:hover {
+    border: 2px solid var(--black-color);
+}
+
+
+hr {
+    margin: 10px auto; /* Center horizontally */   
+    border-top: 2px solid #929292;
+    max-width: 1250px;
+    align-items: center;
+}
+
+/*for review cards*/
+.review {
+    padding: 1em;
+}
+
+.review h2 {
+    font-size: 2rem;
+    padding-left: 4em;
+}
+
+.board.card-list {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-evenly;
+}
+
+.board.card-list .card-item {
+    display: flex;
+    flex-direction: column; 
+    width: 240px;
+    border: 1px solid #ccc; 
+    border-radius: 25px;
+    overflow: hidden; 
+    width: 20%;
+    margin: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.board.card-list .card-body {
+    padding: 20px; 
+    flex: 1; 
+    border-top: 1px solid transparent;
+}
+
+.board.card-list .card-item:hover {
+    border: 2px solid #000; 
+}
+
+.board.card-list .card-item:hover {
+    border: 2px solid #000;
+}
+
+.board.card-list .card-item:nth-of-type(1) .card-header {
+    padding: 20px; 
+    background-color: #FFCA95;
+}
+
+.board.card-list .card-item:nth-of-type(2) .card-header {
+    padding: 20px; 
+    background-color: #FFCA95;
+}
+
+.board.card-list .card-item:nth-of-type(3) .card-header {
+    padding: 20px; 
+    background-color: #BAE6E2;
+}
+
+.board.card-list .card-item:nth-of-type(4) .card-header {
+    padding: 20px; 
+    background-color: #BAE6E2;
+}
+
+
+.board.card-list span {
+    display: inline-block;
+    background: #F7DFF5;
+    margin-top: 32px;
+    padding: 8px 15px;
+    font-size: 0.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+
+
+/*for exam*/
+.exam{
+    margin: 0.5vh auto;
+    padding: 40px;
+    padding-left: 140px;
+    justify-content: center;
+}
+.exam h2{
+    font-size: 2.5rem;
+    font-weight: 1000;
+}
+.exam .card-list1 {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 50px;
+    max-width: 1250px;
+}
+
+.exam .card-list1 .card-item {
+    display: flex;
+    flex-direction: column; 
+    width: 240px;
+    border: 1px solid #ccc; 
+    border-radius: 10px;
+    overflow: hidden; 
+    width: 20%;
+    margin: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.exam .card-list1 .card-body {
+    padding: 20px; 
+    flex: 1; 
+    border-top: 1px solid transparent;
+}
+
+.exam .card-list1 .card-item:hover {
+    border: 2px solid #000; 
+}
+
+.exam .card-list1 .card-item:hover {
+    border: 2px solid #000;
+}
+
+.exam .card-list1 .card-item:nth-of-type(1) .card-header {
+    padding: 10px; 
+    background-color: #D1E5F9;
+}
+
+.exam .card-list1 .card-item:nth-of-type(2) .card-header {
+    padding: 10px; 
+    background-color: #D1E5F9;
+}
+
+.exam .card-list1 .card-item:nth-of-type(3) .card-header {
+    padding: 10px; 
+    background-color: #ECD7EC;
+}
+
+.exam .card-list1 .card-item:nth-of-type(4) .card-header {
+    padding: 10px; 
+    background-color: #ECD7EC;
+}
+
+.exam .card-list1 span {
+    display: inline-block;
+    background: #F7DFF5;
+    margin-top: 32px;
+    padding: 8px 15px;
+    font-size: 0.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.exam .card-item1 h3 {
+    color: #000;
+    font-size: 2rem;
+    font-weight: 600;
+}
+.exam .card-item1 p {
+    color: #000;
+    font-size: 0.9rem;
+}
+
+.exam h2{
+    font-weight: 500;
+    font-size: 2rem;
+    color: black;
+}
+
+/*for homepage*/
+
+.welcome-section {
+    width: 100vw;
+    height: 100vh;
+    padding-top: 4em;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-section h1 {
+    font-size: 7em;
+    line-height: 1em;
+    max-width: 55vw;
+}
+
+.tagline {
+    display: flex;
+    align-items: center;
+    padding: 4em 6em;
+}
+
+.tagline p {
+    padding-bottom: 2em;
+    max-width: 28vw;
+    line-height: 2.5em;
+}
+
+.getstarted {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--tertiary-color);
+    padding: 0.7em 4em;
+    text-decoration: none;
+    border-radius: 2em;
+    color: var(--black-color);
+}
+
+
+/*for cards*/
+
+.info .card-item {
+    padding: 30px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+    transition: border 0.5s ease;
+    border-radius: 40px; 
+    width: 30%;
+}
+
+.info .card-item:nth-of-type(1) {
+    background-color: #ECD7EC;
+}
+.info .card-item:nth-of-type(2) {
+    background-color: #BAE6E2;
+}
+.info .card-item:nth-of-type(3) {
+    background-color: #FFCA95;
+}
+
+.info .card-list span {
+    display: inline-block;
+    background: #F7DFF5;
+    margin-top: 32px;
+    padding: 8px 15px;
+    font-size: 0.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.aboutus-section {
+    width: 100vw;
+    height: 100vh;
+    padding-top: 4em;
+}
+
+.aboutus-section .titles {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center; 
+    gap: 50px;
+    padding-top: 3em;
+}
+
+
+.aboutus-section .titles h1,
+.mind h1 {
+    font-size: 3.5em;
+}
+
+.aboutus-section .titles .oval {
+    height: 50px;
+    background: linear-gradient(90deg, var(--tertiary-color) 0%, var(--primary-color) 100%);
+    width: 66%; 
+    border-radius: 100px;
+}
+
+.story-container {
+    display: flex;
+    gap: 20px;
+    padding: 3em 6em;
+}
+
+
+.story-container img {
+    max-width: 40vw; 
+    height: auto; 
+}
+
+.story-container .story h2 {
+    font-size: 2rem;
+    padding-top: 2rem;
+}
+
+.story-container .story p {
+    padding-right: 6rem;
+}
+
+.mind {
+    padding: 3em 6em;
+}
+
+.mind .photos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    flex-wrap: wrap;
+    padding: 2em 0;
+}
+
+.mind .photos .aboutthem img {
+    width: 100%;
+}
+
+.mind .photos .aboutthem {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+    width: 200px;
+}
+
+.mind .photos .contact {
+    padding: 10px;
+    background-color: var(--primary-color);
+    border-radius: 40px;
+    width: 60%; 
+    color: white;
+    cursor: pointer;
+    margin-top: 10px; 
+    transition: 0.5s ease;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.jump a:hover,
+.mind .photos .contact:hover {
+    color: var(--black-color);
+    background-color: var(--tertiary-color);
+}
+
+.jump-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.jump {
+    background: #1E1E20;
+    padding: 60px;
+    border-radius: 70px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+    color: white;
+    width: 77%;
+}
+
+.jump h2 {
+    font-size: 2.8em;
+}
+
+.jump p {
+    font-size: 1.5rem;
+    color: var(--gray-color);
+    padding-bottom: 3em;
+} 
+
+.jump a {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    border-radius: 2em;
+    padding: 1em 2em;
+    color: white;
+    cursor: pointer; 
+    transition: 0.5s ease;
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+    width: fit-content;
+}
+
+
+.contactus-section {
+    padding-top: 4em;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-between; 
+    padding: 6em;
+}
+
+.contact-container h1 {
+    font-size: 3.5em;
+    padding-bottom: 1em;
+}
+
+.contact-container h2 {
+    font-size: 2.5em;
+}
+
+.contact-container p {
+    width: 50%;
+    font-size: 1.2em;
+    padding-top: 1em;
+}
+
+.contacts {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 55vw; 
+}
+
+.texter {
+    display: flex; 
+    justify-content: space-between;
+    border-bottom: 1px solid var(--black-color); 
+    padding: 0.8em 0;
+}
+
+.texter span {
+    font-size: 1.2em;
+}
+

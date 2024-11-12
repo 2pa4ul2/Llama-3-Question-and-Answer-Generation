@@ -1,27 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload PDF</title>
-    <!-- Bootstrap CSS for styling -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Upload a PDF file</h1>
-        
-        <form id="uploadForm" action="/extract" method="POST" enctype="multipart/form-data" class="text-center">
-            <div class="form-group">
-                <input type="file" name="file" accept="application/pdf" class="form-control-file" required>
-            </div>
-            <button type="submit" class="btn btn-primary mt-3">Upload</button>
-        </form>
-    </div>
+{% extends "layout/base.html" %}
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% block css_file %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+
+{% block title %} File Upload {% endblock %} 
+
+{% block content %}
+<img src="../static/assets/main_bg.svg" class="bg-image">
+<div class="title-section">
+    <a href=" {{ url_for('views.index') }}"><i class="fa-solid fa-chevron-left"></i> Go back</a>
+    <h1>Upload</h1>
+    <p>Upload and attach files to generate exam (PDF and Word file formats).</p>
+</div>
+
+<form method="POST" action="" enctype="multipart/form-data" id="upload-form">
+    <div class="container">
+        <div class="drop-section">
+            <div class="col">
+                <div class="upload-icon">
+                    <img src="../static/assets/up.svg" alt="file">
+                </div>
+                <div class="upload-text">
+                    <a class="file-selector">Click to upload</a>
+                    <span>or drag and drop.</span>
+                </div>
+                <input type="file" class="file-selector-input" name="input_file">
+            </div>
+            <div class="col">
+                <div class="drop-here">Drop file here</div>
+            </div>
+        </div>
+        <div class="list-section" style="display: block;">
+            <ul class="list"></ul>
+        </div>
+        <div class="validation-message">
+        </div>
+    </div>
+    <div class="upload-btn"><button id="upload" class="btn btn-primary" type="submit">Upload</button></div>
+</form>
+
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+{% endblock %}
+
+{% block js_file %} 
+    <script src="../static/js/upload.js"></script>
+{% endblock %}
