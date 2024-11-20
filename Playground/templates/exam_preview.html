@@ -1,0 +1,91 @@
+{% extends "layout/base.html" %}
+
+{% block css_file %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+
+{% block title %} Page Selection {% endblock %} 
+
+{% block content %}
+<img src="../static/assets/main_bg.svg" class="bg-image">
+<div class="preview-container">
+    <div class="title-section">
+        <a href="{{ url_for('views.upload') }}"><i class="fa-solid fa-chevron-left"></i> Go back</a>
+        <h1>Select Page</h1>
+    </div>
+
+    <div class="preview-main">
+        <div class="thumbnail-container">
+            {% if thumbnails %}
+                {% for thumbnail in thumbnails %}
+                    <div class="thumbnail-item">
+                        <img src="../static/uploads/tmp/{{ thumbnail }}">
+                        <p>{{ loop.index }}</p>
+                    </div>
+                {% endfor %}
+                    <div id="end-of-thumbnails">
+                        <div class="preview-loader"></div>
+                    </div>
+            {% else %}
+                <p>No thumbnails available.</p>
+            {% endif %}
+        </div>
+
+        <form method="POST" class="options-container" id="options-form">
+            <div class="options">
+                <div class="options-header">
+                    <h2>Options</h2>
+                </div>
+                <div>
+                    <label for="filename">File Name</label>
+                    <input type="text" name="filename" id="filename" class="filename" value="{{ filename }}">
+                </div> 
+                <div>
+                    <label for="page-selection">Page Selection</label>
+                    <div class="options-page">
+                        <select name="page-selection" id="page-selection">
+                            <option value="select">Select Pages</option>
+                            <option value="current">Current Page</option>
+                            <option value="all">All Pages</option>
+                        </select>
+                        <input type="text" name="pages" placeholder="Example: “1-2, 5”">
+                    </div>
+                </div> 
+                <div>
+                    <div class="options-question">
+                        <h3>Questions<h3>
+                        <button type="button" class="btn btn-primary" id="ques-btn">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="options-type">
+                        <div class="type-labels">
+                            <label for="ques-type">Type of Question</label>
+                            <label for="ques-num">Quantity</label>
+                        </div>
+                        <div class="type-inputs">
+                            <select name="ques-type" id="ques-type">
+                                <option value="identification">Identification</option>
+                                <option value="multiple_choice">Multiple Choice</option>
+                                <option value="true_or_false">True or False</option>
+                            </select>
+                            <input type="number" name="ques-num" id="ques-num" placeholder="1" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="options-button">
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+{% endblock %}
+
+{% block js_file %} 
+    <script src="../static/js/preview.js"></script>
+{% endblock %}

@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app, render_template, redirect, url_for, request, session, jsonify
 from flask_login import login_required, current_user
 from .util import convert_file_to_thumbnail, parse_page_ranges, extract_text, generate_questions
+from .exam_util import exam_convert_file_to_thumbnail, exam_parse_page_ranges, exam_extract_text, exam_generate_questions
 import os
 
 views = Blueprint('views', __name__)
@@ -129,3 +130,90 @@ def responses():
     total = result.get('totalQuestion')
 
     return redirect( url_for('views.quiz_complete', score=score, total=total) )
+
+
+
+
+
+
+
+
+#EXAM ROUTES
+@views.route('/exam_upload', methods=['GET', 'POST'])
+def exam_upload():
+    if request.method == 'GET':
+        return render_template('exam_upload.html') 
+    
+    elif request.method == 'POST':
+        if 'input_file' not in request.files:
+            return redirect(request.url)
+
+        file = request.files['input_file']
+        if file.filename == '':
+            return redirect(request.url)
+        
+        session['file_path'] = os.path.join(current_app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(session['file_path'])
+
+        return redirect(url_for('views.exam_selection', file_name=file.filename))
+
+
+@views.route('/exam_selection',  methods=['GET', 'POST'])
+def exam_selection():
+    if request.method == 'GET':
+        filename = request.args.get('file_name')
+        thumbnails = exam_convert_file_to_thumbnail(session['file_path'], current_app.config['THUMBNAIL_FOLDER'], start_page=0, end_page=10)
+
+        return render_template('exam_preview.html', filename=filename, thumbnails=thumbnails)
+    
+    elif request.method == 'POST':
+        filename = request.form.get('filename')
+        page_selection = request.form.get('page-selection')
+        pages = request.form.get('pages')
+        pages = exam_parse_page_ranges(pages)
+
+        question_types = request.form.getlist('ques-type')
+        question_quantities = request.form.getlist('ques-num')
+         # Process questions and quantities
+        questions = [{'type': qt, 'quantity': int(qn)} for qt, qn in zip(question_types, question_quantities) if qn.isdigit()]
+        
+        # NOTE: FORM VALIDATION HERE
+
+        print(f"Filename: {filename}")
+        print(f"Page Selection: {page_selection}")
+        print(f"Pages: {pages}")
+        print("Questions:", questions)
+
+        text = ''
+        try:
+            text = exam_extract_text(session['file_path'], pages)
+        except KeyError:
+            return jsonify({'message': 'Return to Upload Page'}), 400
+
+
+        session['questions'] = questions
+        session['text'] = text
+
+        return redirect(url_for('views.exam_download'))
+        #return jsonify({'questions': questions, 'text': text})
+
+
+@views.route('/exam_download')
+def exam_download():
+    questions = session.get('questions', [])
+    text = session.get('text', '')
+
+    # For debugging purpose, making sure correct values are being passed
+    for question in questions:
+        question_type = question.get('type')
+        num_questions = question.get('quantity')
+        print(f"Preparing to generate {num_questions} {question_type} questions.")
+
+    # Generate the questions using the function
+    generated_questions = exam_generate_questions(questions, text)
+
+    # For debugging, check the structure of the questions being passed to the template
+    print(f"Generated questions: {generated_questions}")
+
+    # Pass the generated questions to the template
+    return render_template('exam_generated.html', generated_questions=generated_questions)
