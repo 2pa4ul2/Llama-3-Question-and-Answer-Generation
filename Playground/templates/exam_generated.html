@@ -27,7 +27,11 @@
             margin: 0;
         }
         .question-card .quill-container {
-            min-height: 120px;
+            min-height: auto;
+            font-size: 1rem;
+        }
+        ul,li {
+            list-style-type: none;
         }
     </style>
 </head>
@@ -45,13 +49,13 @@
                         <div class="question-card">
                             <div class="question-answer">
                                 <div class="quill-container" id="question-answer-{{ loop.index }}">
-                                    <p><strong>Question {{ loop.index }}:</strong> {{ question.question }}</p>
-                                    <p><strong>Answer:</strong> {{ question.answer }}</p>
+                                    <h4><strong>Question {{ loop.index }}:</strong> {{ question.question }}</h4>
                                     <ul>
                                         {% for letter, option in question.options.items() %}
-                                            <li><span>{{ letter }}) {{ option }}</span></li>
+                                            <li><span>{{ letter }} ) {{ option }}</span></li>
                                         {% endfor %}
                                     </ul>
+                                    <p><strong>Answer:</strong> {{ question.answer }}</p>
                                 </div>
                             </div>
                         </div>

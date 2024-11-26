@@ -57,7 +57,7 @@ def extract_text(file_path, pages):
 
 
 def generate_questions(questions, text):
-    llm = Ollama(model="llama3")
+    llm = Ollama(model="llama3.2")
     all_generated_questions = []
     
     # Prompts for each type of question
