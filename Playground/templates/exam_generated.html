@@ -65,6 +65,7 @@
         {% else %}
             <p class="text-center text-muted">No questions generated.</p>
         {% endif %}
+        <a href="{{ url_for('views.download_document') }}" class="btn btn-primary mt-4">Download All Content as Document</a>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

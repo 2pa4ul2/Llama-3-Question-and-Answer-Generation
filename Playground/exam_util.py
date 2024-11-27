@@ -3,6 +3,7 @@ from PIL import Image
 from pdf2image import convert_from_path
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.llms import Ollama
+from docx import Document
 
 
 def exam_convert_file_to_thumbnail(file_path, thumbnail_path, start_page=0, end_page=1, size=(256, 256)):
@@ -121,7 +122,7 @@ def exam_generate_questions(questions, text):
             formatted_prompt = text + prompt
 
             # Invoke the LLM (LangChain model) to generate questions
-            result = llm.invoke(formatted_prompt, temperature=0.8, max_tokens=100)
+            result = llm.invoke(formatted_prompt, temperature=0.5, max_tokens=100)
 
             # Split the generated result into individual questions and answers
             question_list = parse_questions_and_answers(result)
@@ -172,8 +173,6 @@ def parse_questions_and_answers(result):
         })
 
     return questions_and_answers
-
-
 
 def exam_abbreviate(q_type):
     return {'identification': 'IDN', 'multiple_choice': 'MCQ', 'true_or_false': 'TOF'}.get(q_type.lower(), 'UNKNOWN')

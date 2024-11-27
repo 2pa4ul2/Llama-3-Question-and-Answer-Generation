@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 from .util import convert_file_to_thumbnail, parse_page_ranges, extract_text, generate_questions
 from .exam_util import exam_convert_file_to_thumbnail, exam_parse_page_ranges, exam_extract_text, exam_generate_questions
 import os
+from flask import send_file
+from docx import Document
 
 views = Blueprint('views', __name__)
 
@@ -214,6 +216,39 @@ def exam_download():
 
     # For debugging, check the structure of the questions being passed to the template
     print(f"Generated questions: {generated_questions}")
+    session['questions'] = generated_questions
 
     # Pass the generated questions to the template
     return render_template('exam_generated.html', generated_questions=generated_questions)
+
+
+@views.route('/download_document', methods=['GET'])
+def download_document():
+    questions = session.get('questions', [])  # Generated questions
+    text = session.get('text', '')  # Extracted text
+
+    # Create a new Document
+    doc = Document()
+    doc.add_heading('Generated Questions and Text', 0)
+
+    # Add generated questions
+    for question_set in questions:
+        doc.add_heading(f'{question_set["type"]}',level=2)
+
+        for question in question_set['questions']:
+            doc.add_paragraph(f'{question["question"]}',style='ListNumber')
+
+            # Add options if present
+            if 'options' in question:
+                for letter, option in question['options'].items():
+                    doc.add_paragraph(f'{letter}: {option}')
+
+            # Add the answer
+            doc.add_paragraph(f'Answer: {question.get("answer", "N/A")}')
+
+    # Save the document temporarily
+    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'generated_questions_and_text.docx')
+    doc.save(file_path)
+
+    # Send the document to the user for download
+    return send_file(file_path, as_attachment=True)
